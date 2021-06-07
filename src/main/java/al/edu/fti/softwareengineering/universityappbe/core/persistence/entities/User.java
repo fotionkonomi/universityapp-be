@@ -1,20 +1,20 @@
 package al.edu.fti.softwareengineering.universityappbe.core.persistence.entities;
 
-import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.BaseEntity;
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.commentableAndLikeable.Course;
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.mappedSuperclasses.SoftDeletionEntity;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
 @Table(name = "user")
 @SQLDelete(sql = "UPDATE user SET deleted = 1 WHERE ID = ?")
 @Where(clause = "deleted <> '1'")
-public class User extends BaseEntity {
+public class User extends SoftDeletionEntity {
 
     @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
@@ -30,5 +30,8 @@ public class User extends BaseEntity {
 
     @Column(name = "profile_picture_path", nullable = false)
     private String profilePicturePath;
+
+    @ManyToMany(mappedBy = "studentsEnrolled")
+    private Set<Course> coursesOfAUser;
 
 }

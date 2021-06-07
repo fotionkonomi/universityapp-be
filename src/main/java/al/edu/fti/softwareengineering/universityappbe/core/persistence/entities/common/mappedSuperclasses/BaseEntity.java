@@ -1,4 +1,4 @@
-package al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common;
+package al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.mappedSuperclasses;
 
 import lombok.Data;
 
@@ -9,7 +9,7 @@ import java.util.Date;
 @MappedSuperclass
 public abstract class BaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.TABLE)
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -20,21 +20,15 @@ public abstract class BaseEntity {
     @Column(nullable = false, columnDefinition = "DATETIME")
     private Date updatedAt;
 
-    @Column(nullable = false, name = "deleted")
-    private Boolean deleted;
 
     @PrePersist
     private void prePersist() {
         this.createdAt = new Date();
         this.updatedAt = new Date();
-        this.deleted = false;
     }
 
     @PreUpdate
-    private void preUpdate() {
+    protected void preUpdate() {
         this.updatedAt = new Date();
-        if (this.deleted == null) {
-            this.deleted = false;
-        }
     }
 }

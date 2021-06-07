@@ -1,6 +1,7 @@
 package al.edu.fti.softwareengineering.universityappbe.core.persistence.entities;
 
-import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.BaseEntity;
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.mappedSuperclasses.BaseEntity;
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.mappedSuperclasses.SoftDeletionEntity;
 import lombok.Data;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @Table(name = "hall")
 @SQLDelete(sql = "UPDATE hall SET deleted = 1 WHERE ID = ?")
 @Where(clause = "deleted <> '1'")
-public class Hall extends BaseEntity {
+public class Hall extends SoftDeletionEntity {
 
     @Column(nullable = false, length = 50)
     private String name;

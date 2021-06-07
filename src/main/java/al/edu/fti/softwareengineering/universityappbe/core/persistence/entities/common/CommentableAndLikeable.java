@@ -1,11 +1,21 @@
 package al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common;
 
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.userInteractions.Comment;
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.userInteractions.Like;
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.mappedSuperclasses.SoftDeletionEntity;
 import lombok.Data;
 
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
+import java.util.List;
 
-@MappedSuperclass
+@Entity
 @Data
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class CommentableAndLikeable extends SoftDeletionEntity {
 
-public abstract class CommentableAndLikeable {
+    @OneToMany(mappedBy = "likedContent")
+    private List<Like> likes;
+
+    @OneToMany(mappedBy = "commentedContent")
+    private List<Comment> comments;
 }
