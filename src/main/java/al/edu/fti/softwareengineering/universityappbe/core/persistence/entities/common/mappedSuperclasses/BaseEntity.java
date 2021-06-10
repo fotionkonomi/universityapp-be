@@ -13,7 +13,7 @@ public abstract class BaseEntity {
     private Long id;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false, columnDefinition = "DATETIME")
+    @Column(nullable = false, updatable = false, columnDefinition = "DATETIME")
     private Date createdAt;
 
     @Temporal(TemporalType.TIMESTAMP)
