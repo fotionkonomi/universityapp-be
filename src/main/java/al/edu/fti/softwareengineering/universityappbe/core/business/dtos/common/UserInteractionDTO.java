@@ -4,6 +4,6 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.UserDTO
 import lombok.Data;
 
 @Data
-public abstract class UserInteractionDTO {
+public abstract class UserInteractionDTO extends BaseDTO {
     private UserDTO interactedBy;
 }
