@@ -10,8 +10,6 @@ public interface BaseService<DTO, ID> {
 
     DTO save(DTO dto);
 
-    List<DTO> findAll();
-
     void deleteById(ID id);
 
     List<DTO> findAllPageable(int pageNumber);

@@ -7,6 +7,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositor
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,25 +51,16 @@ public abstract class AbstractJpaService<DTO extends BaseDTO, ENTITY extends Bas
     }
 
     @Override
-    public List<DTO> findAll() {
-        List<ENTITY> entityList = repo.findAll();
-        List<DTO> dtoList = mapEntityListToDTO(entityList);
-        if(dtoList != null) {
-            return dtoList;
-        }
-        return dtoList != null ? dtoList : null;
-    }
-
-    @Override
     public void deleteById(ID id) {
         this.repo.deleteById(id);
     }
 
     @Override
     public List<DTO> findAllPageable(int pageNumber) {
-        List<ENTITY> entityList = repo.findAllPageable(PageRequest.of(pageNumber, 10));
-        List<DTO> dtoList = mapEntityListToDTO(entityList);
-        return dtoList != null ? dtoList : null;
+        pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
+        Page<ENTITY> entityList = repo.findAll(PageRequest.of(pageNumber, 10));
+        List<DTO> dtoList = mapEntityListToDTO(entityList.getContent());
+        return dtoList;
     }
 
     protected ENTITY mapFromDTO(DTO dto) {
