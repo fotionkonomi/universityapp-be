@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
 @Data
@@ -14,7 +15,12 @@ public class SoftDeletionEntity extends BaseEntity {
     private Boolean deleted;
 
     @Override
-    @PreUpdate
+    protected void prePersist() {
+        super.prePersist();
+        this.deleted = false;
+    }
+
+    @Override
     protected void preUpdate() {
         super.preUpdate();
         if (this.deleted == null) {

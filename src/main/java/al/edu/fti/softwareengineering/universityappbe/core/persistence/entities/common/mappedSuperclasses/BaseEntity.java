@@ -22,7 +22,7 @@ public abstract class BaseEntity {
 
 
     @PrePersist
-    private void prePersist() {
+    protected void prePersist() {
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }

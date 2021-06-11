@@ -1,5 +1,6 @@
-package al.edu.fti.softwareengineering.universityappbe.api.rest.controller.common;
+package al.edu.fti.softwareengineering.universityappbe.api.rest.controller;
 
+import al.edu.fti.softwareengineering.universityappbe.api.rest.controller.common.CommonCrudRestController;
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.commentableAndLikeable.CourseDTO;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
