@@ -6,10 +6,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.comment
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.CourseService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,5 +24,19 @@ public class CourseController extends CommonCrudRestController<CourseDTO, Long> 
     public ResponseEntity<List<CourseDTO>> getEnrolledCourses(@PathVariable("page") int pageNumber) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(((CourseService) service).findAllByStudentEnrolled_id(userDetails.getId(), pageNumber));
+    }
+
+    @PutMapping("/enroll/{idCourse}")
+    public ResponseEntity<Void> enrollInCourse(@PathVariable("idCourse") Long idCourse) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ((CourseService) service).saveUser(idCourse, userDetails.getId());
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/drop/{idCourse}")
+    public ResponseEntity<Void> dropCourse(@PathVariable("idCourse") Long idCourse) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ((CourseService) service).dropUser(idCourse, userDetails.getId());
+        return ResponseEntity.ok().build();
     }
 }

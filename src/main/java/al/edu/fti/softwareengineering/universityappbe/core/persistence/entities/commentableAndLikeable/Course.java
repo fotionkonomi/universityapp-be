@@ -46,4 +46,14 @@ public class Course extends CommentableAndLikeable {
     @JoinTable(name = "student_course", joinColumns = { @JoinColumn(name = "id_course") },
             inverseJoinColumns = { @JoinColumn(name = "id_student")})
     private Set<User> studentsEnrolled;
+
+    public void addUser(User user) {
+        this.studentsEnrolled.add(user);
+        user.getCoursesOfAUser().add(this);
+    }
+
+    public void dropUser(User user) {
+        this.studentsEnrolled.remove(user);
+        user.getCoursesOfAUser().remove(this);
+    }
 }
