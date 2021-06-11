@@ -6,12 +6,10 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.service.User
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -28,6 +26,11 @@ public class UserController extends CommonCrudRestController<UserDTO, Long> {
     @PostMapping("/email")
     public UserDTO findUserByEmail(@RequestBody String email) {
         return ((UserService) service).findByEmail(email);
+    }
+
+    @GetMapping("/courseEnrolled/{idCourse}")
+    public ResponseEntity<List<UserDTO>> getAllStudentsEnrolledInACourse(@PathVariable("idCourse") Long idCourse) {
+        return ResponseEntity.ok(((UserService) service).getUsersEnrolledInACourse(idCourse));
     }
 
 }

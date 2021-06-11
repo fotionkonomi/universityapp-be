@@ -9,6 +9,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -27,6 +28,11 @@ public class UserServiceImpl extends AbstractJpaService<UserDTO, User, Long> imp
     }
 
     @Override
+    public List<UserDTO> getUsersEnrolledInACourse(Long idCourse) {
+        return mapEntityListToDTO(getUserRepository().findAllByCoursesOfAUser_id(idCourse));
+    }
+
+    @Override
     public UserDTO save(UserDTO dto) {
         if(dto.getId() == null) {
             UserDTO existingUser = this.findByEmailOrNull(dto.getEmail());
@@ -38,11 +44,15 @@ public class UserServiceImpl extends AbstractJpaService<UserDTO, User, Long> imp
     }
 
     private UserDTO findByEmailOrNull(String email) {
-        Optional<User> optionalUser = ((UserRepository) repo).findByEmail(email);
+        Optional<User> optionalUser = getUserRepository().findByEmail(email);
         if(optionalUser.isPresent()) {
             return mapFromEntity(optionalUser.get());
         } else {
             return null;
         }
+    }
+
+    private UserRepository getUserRepository() {
+        return (UserRepository) repo;
     }
 }
