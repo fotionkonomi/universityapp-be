@@ -3,6 +3,7 @@ package al.edu.fti.softwareengineering.universityappbe.core.persistence.entities
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.commentableAndLikeable.Course;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.mappedSuperclasses.SoftDeletionEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -14,6 +15,7 @@ import java.util.Set;
 @Table(name = "user")
 @SQLDelete(sql = "UPDATE user SET deleted = 1 WHERE ID = ?")
 @Where(clause = "deleted <> '1'")
+@EqualsAndHashCode(callSuper = true, exclude = {"coursesOfAUser"})
 public class User extends SoftDeletionEntity {
 
     @Column(name = "first_name", nullable = false, length = 50)

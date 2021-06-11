@@ -5,6 +5,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.CommentableAndLikeable;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.enums.CourseRepeatType;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
@@ -17,6 +18,7 @@ import java.util.Set;
 @Table(name = "course")
 @SQLDelete(sql = "UPDATE course SET deleted = 1 WHERE ID = ?")
 @Where(clause = "deleted <> '1'")
+@EqualsAndHashCode(callSuper = true, exclude = {"studentsEnrolled"})
 public class Course extends CommentableAndLikeable {
 
     @Column(nullable = false)

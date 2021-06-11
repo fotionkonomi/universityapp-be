@@ -8,6 +8,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositor
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -19,7 +20,17 @@ public class CourseServiceImpl extends AbstractJpaService<CourseDTO, Course, Lon
 
     @Override
     public List<CourseDTO> findAllByStudentEnrolled_id(Long id, int pageNumber) {
-        CourseRepository courseRepository = (CourseRepository) repo;
-        return mapEntityListToDTO(courseRepository.findAllByStudentsEnrolled_id(id, PageRequest.of(pageNumber, 10)));
+        pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
+        return mapEntityListToDTO(getCourseRepository().findAllByStudentsEnrolled_Id(id, PageRequest.of(pageNumber, 10)));
+    }
+
+    @Override
+    public List<CourseDTO> findAllCoursesAvailableForLoggedUser(long id, int pageNumber) {
+        pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
+        return mapEntityListToDTO(getCourseRepository().findAllAvailableCourses(id, new Date(), PageRequest.of(pageNumber, 10)));
+    }
+
+    private CourseRepository getCourseRepository() {
+        return (CourseRepository) repo;
     }
 }
