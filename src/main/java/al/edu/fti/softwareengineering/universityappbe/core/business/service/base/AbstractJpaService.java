@@ -71,7 +71,7 @@ public abstract class AbstractJpaService<DTO extends BaseDTO, ENTITY extends Bas
         return modelMapper.map(entity, classOfDTO);
     }
 
-    private Optional<DTO> mapOptionalEntityToDTO(Optional<ENTITY> optionalEntity) {
+    protected Optional<DTO> mapOptionalEntityToDTO(Optional<ENTITY> optionalEntity) {
         return Optional.ofNullable(optionalEntity.isPresent() ? mapFromEntity(optionalEntity.get()) : null);
     }
 

@@ -10,5 +10,6 @@ public abstract class UniversityAppException extends RuntimeException {
 
     public UniversityAppException(String messageKey) {
         super(messageKey);
+        this.messageKey = messageKey;
     }
 }
