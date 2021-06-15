@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/friendship")
 public class FriendshipController extends CommonCrudRestController<FriendshipDTO, Long> {
@@ -33,6 +35,13 @@ public class FriendshipController extends CommonCrudRestController<FriendshipDTO
         this.getFriendshipService().declineFriendRequest(userDetails.getId(), idRequestedBy);
         return ResponseEntity.ok().build();
     }
+
+    @GetMapping("/friendRequests/loggedUser")
+    public ResponseEntity<List<FriendshipDTO>> getFriendshipRequestedToLoggedUser() {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(this.getFriendshipService().getFriendshipRequestsForAUser(userDetails.getId()));
+    }
+
     private FriendshipService getFriendshipService() {
         return (FriendshipService) service;
     }
