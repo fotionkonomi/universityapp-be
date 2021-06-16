@@ -4,4 +4,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.userInt
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.base.BaseService;
 
 public interface CommentService extends BaseService<CommentDTO, Long> {
+
+    void addCommentToACourse(Long idCourse, String content, Long idUser);
+
 }

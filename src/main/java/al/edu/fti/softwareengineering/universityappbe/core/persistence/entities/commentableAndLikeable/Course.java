@@ -4,8 +4,10 @@ import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.User;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.CommentableAndLikeable;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.enums.CourseRepeatType;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 

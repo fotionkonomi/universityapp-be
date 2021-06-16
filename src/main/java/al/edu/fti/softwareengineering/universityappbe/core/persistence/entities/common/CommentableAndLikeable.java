@@ -11,7 +11,7 @@ import java.util.List;
 @Entity
 @Data
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class CommentableAndLikeable extends SoftDeletionEntity {
+public class CommentableAndLikeable extends SoftDeletionEntity {
 
     @OneToMany(mappedBy = "likedContent")
     private List<Like> likes;
