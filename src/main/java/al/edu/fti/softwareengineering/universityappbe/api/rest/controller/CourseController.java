@@ -17,26 +17,36 @@ public class CourseController extends CommonCrudRestController<CourseDTO, Long> 
     @GetMapping("/available/{page}")
     public ResponseEntity<List<CourseDTO>> getAvailableCourses(@PathVariable("page") int pageNumber) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(((CourseService) service).findAllCoursesAvailableForLoggedUser(userDetails.getId(), pageNumber));
+        return ResponseEntity.ok(getCourseService().findAllCoursesAvailableForLoggedUser(userDetails.getId(), pageNumber));
     }
 
     @GetMapping("/enrolled/{page}")
     public ResponseEntity<List<CourseDTO>> getEnrolledCourses(@PathVariable("page") int pageNumber) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return ResponseEntity.ok(((CourseService) service).findAllByStudentEnrolled_id(userDetails.getId(), pageNumber));
+        return ResponseEntity.ok(getCourseService().findAllByStudentEnrolled_id(userDetails.getId(), pageNumber));
     }
 
     @PutMapping("/enroll/{idCourse}")
     public ResponseEntity<Void> enrollInCourse(@PathVariable("idCourse") Long idCourse) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ((CourseService) service).saveUser(idCourse, userDetails.getId());
+        getCourseService().saveUser(idCourse, userDetails.getId());
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/drop/{idCourse}")
     public ResponseEntity<Void> dropCourse(@PathVariable("idCourse") Long idCourse) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        ((CourseService) service).dropUser(idCourse, userDetails.getId());
+        this.getCourseService().dropUser(idCourse, userDetails.getId());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/friend/{idFriend}/{pageNumber}")
+    public ResponseEntity<List<CourseDTO>> getCoursesOfAFriend(@PathVariable("idFriend") Long idFriend, @PathVariable("pageNumber") int pageNumber) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(getCourseService().getCoursesOfAFriend(userDetails.getId(), idFriend, pageNumber));
+    }
+
+    private CourseService getCourseService() {
+        return (CourseService) service;
     }
 }

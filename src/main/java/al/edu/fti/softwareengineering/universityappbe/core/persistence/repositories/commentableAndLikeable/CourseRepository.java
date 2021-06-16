@@ -16,4 +16,5 @@ public interface CourseRepository extends ParentRepository<Course, Long> {
 
     @Query("select c from Course c LEFT JOIN c.studentsEnrolled s where (s.id is null or s.id <> :id) and c.startDateTime > :startDateTime")
     List<Course> findAllAvailableCourses(@Param("id") long id, @Param("startDateTime") Date startDateTime, Pageable pageable);
+
 }

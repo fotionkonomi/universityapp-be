@@ -9,6 +9,7 @@ public class MessageConstants {
 
     public static final String MSG_FRIENDSHIP_ALREADY_EXISTS = "friendship.already.exists";
     public static final String MSG_FRIENDSHIP_SAME_USER = "friendship.sameUser";
+    public static final String MSG_FRIENDSHIP_NOT_FOUND = "friendship.notFound";
 
     // Notification contents
     public static final String MSG_NOTIFICATION_FRIENDSHIP_REQUEST = "notification.friendship.request";

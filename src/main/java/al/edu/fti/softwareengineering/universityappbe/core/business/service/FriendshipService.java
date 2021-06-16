@@ -15,4 +15,6 @@ public interface FriendshipService extends BaseService<FriendshipDTO, Long> {
     List<FriendshipDTO> getFriendshipRequestsForAUser(Long idRequestedTo);
 
     boolean checkIfFriendshipAlreadyExists(Long idLoggedUser, Long idPossibleFriend);
+
+    boolean checkIfFriendshipAlreadyExistsAndAccepted(Long idLoggedUser, Long idPossibleFriend);
 }

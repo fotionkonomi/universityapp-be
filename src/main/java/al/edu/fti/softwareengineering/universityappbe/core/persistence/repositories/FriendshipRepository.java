@@ -16,4 +16,7 @@ public interface FriendshipRepository extends ParentRepository<Friendship, Long>
 
     @Query("SELECT f FROM Friendship f WHERE (f.requestedBy.id = :idUserLogged and f.requestedTo.id = :idPossibleFriend ) or (f.requestedBy.id = :idPossibleFriend and f.requestedTo.id = :idUserLogged)")
     Optional<Friendship> findIfFriendshipExists(Long idUserLogged, Long idPossibleFriend);
+
+    @Query("SELECT f FROM Friendship f WHERE (f.requestedBy.id = :idUserLogged and f.requestedTo.id = :idPossibleFriend ) or (f.requestedBy.id = :idPossibleFriend and f.requestedTo.id = :idUserLogged) and f.active = true")
+    Optional<Friendship> findIfFriendshipExistsAndAccepted(Long idUserLogged, Long idPossibleFriend);
 }

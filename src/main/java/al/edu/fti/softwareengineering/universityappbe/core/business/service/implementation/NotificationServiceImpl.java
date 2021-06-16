@@ -55,7 +55,8 @@ public class NotificationServiceImpl extends AbstractJpaService<NotificationDTO,
     @Override
     public void sendNotificationForDecliningFriendRequest(Long idToUser, Long idFromUser) {
         UserDTO userDTOToUser = this.userService.findById(idToUser);
-        UserDTO userDTOFromUser = this.userService.findById(idFromUser);        NotificationDTO notification = new NotificationDTO();
+        UserDTO userDTOFromUser = this.userService.findById(idFromUser);
+        NotificationDTO notification = new NotificationDTO();
         notification.setToUser(userDTOToUser);
         notification.setContent(MessageConstants.MSG_NOTIFICATION_FRIENDSHIP_REQUEST_DECLINED);
         notification.setParameters(userDTOFromUser.getFirstName() + " " + userDTOFromUser.getLastName());

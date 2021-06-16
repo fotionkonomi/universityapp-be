@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@Table(name = "like")
+@Table(name = "likeInteraction")
 public class Like extends UserInteraction {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

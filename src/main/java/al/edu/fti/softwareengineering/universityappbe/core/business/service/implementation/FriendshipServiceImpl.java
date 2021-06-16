@@ -76,6 +76,11 @@ public class FriendshipServiceImpl extends AbstractJpaService<FriendshipDTO, Fri
         return this.getFriendshipRepository().findIfFriendshipExists(idLoggedUser, idPossibleFriend).isPresent();
     }
 
+    @Override
+    public boolean checkIfFriendshipAlreadyExistsAndAccepted(Long idLoggedUser, Long idPossibleFriend) {
+        return this.getFriendshipRepository().findIfFriendshipExistsAndAccepted(idLoggedUser, idPossibleFriend).isPresent();
+    }
+
     private FriendshipDTO findFriendRequest(Long idRequestedTo, Long idRequestedBy) {
         return mapOptionalEntityToDTO(getFriendshipRepository().findFriendshipByRequestedBy_IdAndRequestedTo_IdAndActiveIsFalse(idRequestedBy, idRequestedTo)).orElseThrow(EntityNotFoundException::new);
     }

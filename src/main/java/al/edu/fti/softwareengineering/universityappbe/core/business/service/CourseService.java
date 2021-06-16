@@ -13,4 +13,6 @@ public interface CourseService extends BaseService<CourseDTO, Long> {
     void saveUser(Long courseId, Long userId);
 
     void dropUser(Long courseId, Long userId);
+
+    List<CourseDTO> getCoursesOfAFriend(Long idUserLogged, Long idFriend, int pageNumber);
 }

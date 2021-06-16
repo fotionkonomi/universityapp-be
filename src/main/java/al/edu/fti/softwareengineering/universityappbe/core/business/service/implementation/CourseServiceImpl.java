@@ -2,7 +2,9 @@ package al.edu.fti.softwareengineering.universityappbe.core.business.service.imp
 
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.commentableAndLikeable.CourseDTO;
 import al.edu.fti.softwareengineering.universityappbe.core.business.exceptions.EntityNotFoundException;
+import al.edu.fti.softwareengineering.universityappbe.core.business.exceptions.FriendshipNotFoundException;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.CourseService;
+import al.edu.fti.softwareengineering.universityappbe.core.business.service.FriendshipService;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.base.AbstractJpaService;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.User;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.commentableAndLikeable.Course;
@@ -21,6 +23,9 @@ public class CourseServiceImpl extends AbstractJpaService<CourseDTO, Course, Lon
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FriendshipService friendshipService;
 
     public CourseServiceImpl() {
         super(Course.class, CourseDTO.class);
@@ -54,6 +59,15 @@ public class CourseServiceImpl extends AbstractJpaService<CourseDTO, Course, Lon
 
         course.dropUser(user);
         repo.save(course);
+    }
+
+    @Override
+    public List<CourseDTO> getCoursesOfAFriend(Long idLoggedUser, Long idFriend, int pageNumber) {
+        if(friendshipService.checkIfFriendshipAlreadyExistsAndAccepted(idLoggedUser, idFriend)) {
+            pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
+            return this.findAllByStudentEnrolled_id(idFriend, pageNumber);
+        }
+        throw new FriendshipNotFoundException();
     }
 
     private CourseRepository getCourseRepository() {
