@@ -4,6 +4,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.userInteractions.Like;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.common.mappedSuperclasses.SoftDeletionEntity;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.List;

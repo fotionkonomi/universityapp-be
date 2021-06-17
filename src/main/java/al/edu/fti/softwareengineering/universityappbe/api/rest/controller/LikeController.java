@@ -22,6 +22,13 @@ public class LikeController extends CommonCrudRestController<LikeDTO, Long> {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/content/{idContent}")
+    public ResponseEntity<Void> toggleLikeAContent(@PathVariable("idContent") Long idContent) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        getLikeService().toggleLikeContent(idContent, userDetails.getId());
+        return ResponseEntity.ok().build();
+    }
+
     public LikeService getLikeService() {
         return (LikeService) service;
     }

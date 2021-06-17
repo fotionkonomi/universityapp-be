@@ -1,9 +1,11 @@
 package al.edu.fti.softwareengineering.universityappbe.core.business.service.implementation;
 
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.UserDTO;
+import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.common.CommentableAndLikeableDTO;
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.userInteractions.CommentDTO;
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.userInteractions.LikeDTO;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.CommentService;
+import al.edu.fti.softwareengineering.universityappbe.core.business.service.CommentableAndLikeableService;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.LikeService;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.UserService;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.base.AbstractJpaService;
@@ -22,6 +24,9 @@ public class LikeServiceImpl extends AbstractJpaService<LikeDTO, Like, Long> imp
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentableAndLikeableService commentableAndLikeableService;
 
     public LikeServiceImpl() {
         super(Like.class, LikeDTO.class);
@@ -45,6 +50,27 @@ public class LikeServiceImpl extends AbstractJpaService<LikeDTO, Like, Long> imp
     @Override
     public LikeDTO getLikeIfCommentIsAlreadyLiked(Long idComment, Long idUser) {
         Optional<Like> optionalLike = getLikeRepository().findLikeByCommentLiked_IdAndInteractedBy_Id(idComment, idUser);
+        return optionalLike.map(this::mapFromEntity).orElse(null);
+    }
+
+    @Override
+    public void toggleLikeContent(Long idCommentableAndLikeable, Long idUser) {
+        LikeDTO likeDTO = this.getLikeIfContentIsAlreadyLiked(idCommentableAndLikeable, idUser);
+        if (likeDTO != null) {
+            this.deleteById(likeDTO.getId());
+        } else {
+            CommentableAndLikeableDTO commentableAndLikeableDTO = this.commentableAndLikeableService.findById(idCommentableAndLikeable);
+            UserDTO userLogged = this.userService.findById(idUser);
+            likeDTO = new LikeDTO();
+            likeDTO.setLikedContent(commentableAndLikeableDTO);
+            likeDTO.setInteractedBy(userLogged);
+            this.save(likeDTO);
+        }
+    }
+
+    @Override
+    public LikeDTO getLikeIfContentIsAlreadyLiked(Long idCommentableAndLikeable, Long idUser) {
+        Optional<Like> optionalLike = getLikeRepository().findLikeByLikedContent_IdAndInteractedBy_Id(idCommentableAndLikeable, idUser);
         return optionalLike.map(this::mapFromEntity).orElse(null);
     }
 

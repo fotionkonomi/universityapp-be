@@ -7,4 +7,8 @@ public interface LikeService extends BaseService<LikeDTO, Long> {
     void toggleLikeAComment(Long idComment, Long idUser);
 
     LikeDTO getLikeIfCommentIsAlreadyLiked(Long idComment, Long idUser);
+
+    void toggleLikeContent(Long idCommentableAndLikeable, Long idUser);
+
+    LikeDTO getLikeIfContentIsAlreadyLiked(Long idCommentableAndLikeable, Long idUser);
 }

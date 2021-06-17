@@ -5,6 +5,6 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.service.base
 
 public interface CommentService extends BaseService<CommentDTO, Long> {
 
-    void addCommentToACourse(Long idCourse, String content, Long idUser);
+    void addCommentToACommentableAndLikeable(Long idCommentableAndLikeable, String content, Long idUser);
 
 }

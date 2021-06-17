@@ -12,7 +12,9 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -20,7 +22,7 @@ import java.util.Set;
 @Table(name = "course")
 @SQLDelete(sql = "UPDATE course SET deleted = 1 WHERE ID = ?")
 @Where(clause = "deleted <> '1'")
-@EqualsAndHashCode(callSuper = true, exclude = {"studentsEnrolled"})
+@EqualsAndHashCode(callSuper = true, exclude = {"studentsEnrolled", "likes", "commentedContent"})
 public class Course extends CommentableAndLikeable {
 
     @Column(nullable = false)
@@ -48,6 +50,9 @@ public class Course extends CommentableAndLikeable {
     @JoinTable(name = "student_course", joinColumns = { @JoinColumn(name = "id_course") },
             inverseJoinColumns = { @JoinColumn(name = "id_student")})
     private Set<User> studentsEnrolled;
+
+    @OneToMany(mappedBy = "courseField")
+    private List<CourseAnnouncment> courseAnnouncments = new ArrayList<>();
 
     public void addUser(User user) {
         this.studentsEnrolled.add(user);

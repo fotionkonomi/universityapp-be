@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class CourseAnnouncmentDTO extends CommentableAndLikeableDTO {
-    private CourseDTO course;
+    private CourseDTO courseField;
 
     private String content;
 }

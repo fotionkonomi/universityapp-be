@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/comment")
 public class CommentController extends CommonCrudRestController<CommentDTO, Long> {
 
-    @PostMapping("/course/{idCourse}")
-    public ResponseEntity<Void> addCommentInACourse(@PathVariable("idCourse") Long idCourse, @RequestBody CommentBodyDTO commentBodyDTO) {
+    @PostMapping("/content/{idContent}")
+    public ResponseEntity<Void> addCommentInAContent(@PathVariable("idContent") Long idContent, @RequestBody CommentBodyDTO commentBodyDTO) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        this.getCommentService().addCommentToACourse(idCourse, commentBodyDTO.getContent(), userDetails.getId());
+        this.getCommentService().addCommentToACommentableAndLikeable(idContent, commentBodyDTO.getContent(), userDetails.getId());
         return ResponseEntity.ok().build();
     }
 

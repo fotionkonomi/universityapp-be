@@ -9,4 +9,7 @@ import java.util.Optional;
 @Repository
 public interface LikeRepository extends ParentRepository<Like, Long> {
     Optional<Like> findLikeByCommentLiked_IdAndInteractedBy_Id(Long idComment, Long idUser);
+
+    Optional<Like> findLikeByLikedContent_IdAndInteractedBy_Id(Long idCommentableAndLikeable, Long idUser);
+
 }
