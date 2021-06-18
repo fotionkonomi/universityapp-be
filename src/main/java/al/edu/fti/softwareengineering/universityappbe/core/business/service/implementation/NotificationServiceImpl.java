@@ -71,6 +71,15 @@ public class NotificationServiceImpl extends AbstractJpaService<NotificationDTO,
         this.save(notificationDTO);
     }
 
+    @Override
+    public void sendNotificationForPost(UserDTO userToNotify, UserDTO poster) {
+        NotificationDTO notificationDTO = new NotificationDTO();
+        notificationDTO.setToUser(userToNotify);
+        notificationDTO.setParameters(poster.getFirstName() + " " + poster.getLastName());
+        notificationDTO.setContent(MessageConstants.MSG_NOTIFICATION_POST);
+        this.save(notificationDTO);
+    }
+
 
     private NotificationRepository getNotificationRepository() {
         return (NotificationRepository) repo;

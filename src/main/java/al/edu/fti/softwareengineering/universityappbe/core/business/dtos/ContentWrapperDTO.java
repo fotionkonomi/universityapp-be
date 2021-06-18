@@ -3,6 +3,6 @@ package al.edu.fti.softwareengineering.universityappbe.core.business.dtos;
 import lombok.Data;
 
 @Data
-public class CommentBodyDTO {
+public class ContentWrapperDTO {
     private String content;
 }

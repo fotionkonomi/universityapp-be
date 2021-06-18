@@ -1,14 +1,10 @@
 package al.edu.fti.softwareengineering.universityappbe.core.business.service.implementation;
 
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.UserDTO;
-import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.commentableAndLikeable.CourseDTO;
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.common.CommentableAndLikeableDTO;
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.userInteractions.CommentDTO;
-import al.edu.fti.softwareengineering.universityappbe.core.business.exceptions.CommentEmptyException;
-import al.edu.fti.softwareengineering.universityappbe.core.business.service.CommentService;
-import al.edu.fti.softwareengineering.universityappbe.core.business.service.CommentableAndLikeableService;
-import al.edu.fti.softwareengineering.universityappbe.core.business.service.CourseService;
-import al.edu.fti.softwareengineering.universityappbe.core.business.service.UserService;
+import al.edu.fti.softwareengineering.universityappbe.core.business.exceptions.ContentEmptyException;
+import al.edu.fti.softwareengineering.universityappbe.core.business.service.*;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.base.AbstractJpaService;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.userInteractions.Comment;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositories.userInteraction.CommentRepository;
@@ -25,6 +21,9 @@ public class CommentServiceImpl extends AbstractJpaService<CommentDTO, Comment, 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private PostService postService;
+
     public CommentServiceImpl() {
         super(Comment.class, CommentDTO.class);
     }
@@ -32,7 +31,7 @@ public class CommentServiceImpl extends AbstractJpaService<CommentDTO, Comment, 
     @Override
     public void addCommentToACommentableAndLikeable(Long idCommentableAndLikeable, String content, Long idUser) {
         if(!StringUtils.hasText(content)) {
-            throw new CommentEmptyException();
+            throw new ContentEmptyException();
         }
         CommentableAndLikeableDTO commentableAndLikeableDTO = this.commentableAndLikeableService.findById(idCommentableAndLikeable);
         UserDTO userDTO = this.userService.findById(idUser);
@@ -41,7 +40,8 @@ public class CommentServiceImpl extends AbstractJpaService<CommentDTO, Comment, 
         commentDTO.setContent(content);
         commentDTO.setCommentedContent(commentableAndLikeableDTO);
 
-        this.save(commentDTO);
+        commentDTO = this.save(commentDTO);
+        this.postService.addPostFromComment(userDTO.getId(), commentDTO);
     }
 
     private CommentRepository getCommentRepository() {

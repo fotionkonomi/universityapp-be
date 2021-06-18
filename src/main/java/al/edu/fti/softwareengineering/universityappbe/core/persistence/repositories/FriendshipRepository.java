@@ -1,6 +1,7 @@
 package al.edu.fti.softwareengineering.universityappbe.core.persistence.repositories;
 
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.Friendship;
+import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.User;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositories.common.ParentRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -19,4 +20,6 @@ public interface FriendshipRepository extends ParentRepository<Friendship, Long>
 
     @Query("SELECT f FROM Friendship f WHERE (f.requestedBy.id = :idUserLogged and f.requestedTo.id = :idPossibleFriend ) or (f.requestedBy.id = :idPossibleFriend and f.requestedTo.id = :idUserLogged) and f.active = true")
     Optional<Friendship> findIfFriendshipExistsAndAccepted(Long idUserLogged, Long idPossibleFriend);
+
+    List<Friendship> findAllByRequestedBy_IdOrRequestedTo_IdAndActiveIsTrue(Long userId, Long userIdAgain);
 }

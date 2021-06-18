@@ -42,6 +42,12 @@ public class FriendshipController extends CommonCrudRestController<FriendshipDTO
         return ResponseEntity.ok(this.getFriendshipService().getFriendshipRequestsForAUser(userDetails.getId()));
     }
 
+    @GetMapping("/friendships/loggedUser")
+    public ResponseEntity<List<FriendshipDTO>> getFriendshipsOfLoggedUser() {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(this.getFriendshipService().getFriendshipsOfAUser(userDetails.getId()));
+    }
+
     private FriendshipService getFriendshipService() {
         return (FriendshipService) service;
     }
