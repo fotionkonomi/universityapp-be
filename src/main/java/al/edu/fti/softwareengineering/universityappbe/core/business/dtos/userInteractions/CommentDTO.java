@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -15,8 +14,6 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class CommentDTO extends UserInteractionDTO {
     private String content;
-
-    private List<LikeDTO> likesOfComment;
 
     private CommentableAndLikeableDTO commentedContent;
 }

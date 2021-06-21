@@ -9,25 +9,26 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
 
-@ControllerAdvice
+@RestControllerAdvice
 @Slf4j
 public class ExceptionHandler {
-    @Autowired
-    private ExceptionMessageUtil messageUtil;
+//    @Autowired
+//    private ExceptionMessageUtil messageUtil;
 
     @org.springframework.web.bind.annotation.ExceptionHandler(UniversityAppException.class)
     public ResponseEntity<HttpErrorResponse> handleServiceExceptions(UniversityAppException exception, HttpServletRequest request) {
         log.error("Exception from service layer: " + exception);
-        return fillHttpErrorResponse(request, messageUtil.getLocalizedMessage(exception.getMessageKey()), HttpStatus.INTERNAL_SERVER_ERROR);
+        return fillHttpErrorResponse(request, exception.getMessageKey(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<HttpErrorResponse> handleBadCredentialsException(BadCredentialsException exception, HttpServletRequest request) {
         log.error("Exception while trying to log in: " + exception);
-        return fillHttpErrorResponse(request, messageUtil.getLocalizedMessage(exception.getMessage()), HttpStatus.FORBIDDEN);
+        return fillHttpErrorResponse(request, exception.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     private ResponseEntity<HttpErrorResponse> fillHttpErrorResponse(HttpServletRequest request, String localizedMessage, HttpStatus httpStatus) {

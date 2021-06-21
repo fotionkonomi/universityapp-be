@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/comment")
 public class CommentController extends CommonCrudRestController<CommentDTO, Long> {
@@ -18,6 +20,11 @@ public class CommentController extends CommonCrudRestController<CommentDTO, Long
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         this.getCommentService().addCommentToACommentableAndLikeable(idContent, contentWrapperDTO.getContent(), userDetails.getId());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/content/{idContent}")
+    public ResponseEntity<List<CommentDTO>> getAllCommentsInAContent(@PathVariable("idContent") Long idContent) {
+        return ResponseEntity.ok(this.getCommentService().getAllCommentsInACommentableAndLikeable(idContent));
     }
 
     private CommentService getCommentService() {

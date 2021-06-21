@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.List;
+
 @Service
 public class CommentServiceImpl extends AbstractJpaService<CommentDTO, Comment, Long> implements CommentService {
 
@@ -42,6 +44,11 @@ public class CommentServiceImpl extends AbstractJpaService<CommentDTO, Comment, 
 
         commentDTO = this.save(commentDTO);
         this.postService.addPostFromComment(userDTO.getId(), commentDTO);
+    }
+
+    @Override
+    public List<CommentDTO> getAllCommentsInACommentableAndLikeable(Long idCommentableAndLikeable) {
+        return mapEntityListToDTO(getCommentRepository().findAllByCommentedContent_IdOrderByUpdatedAtDesc(idCommentableAndLikeable));
     }
 
     private CommentRepository getCommentRepository() {

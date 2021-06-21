@@ -14,6 +14,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositor
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,6 +73,11 @@ public class LikeServiceImpl extends AbstractJpaService<LikeDTO, Like, Long> imp
     public LikeDTO getLikeIfContentIsAlreadyLiked(Long idCommentableAndLikeable, Long idUser) {
         Optional<Like> optionalLike = getLikeRepository().findLikeByLikedContent_IdAndInteractedBy_Id(idCommentableAndLikeable, idUser);
         return optionalLike.map(this::mapFromEntity).orElse(null);
+    }
+
+    @Override
+    public List<LikeDTO> getLikesOfAComment(Long idComment) {
+        return mapEntityListToDTO(getLikeRepository().findAllByCommentLiked_Id(idComment));
     }
 
     private LikeRepository getLikeRepository() {

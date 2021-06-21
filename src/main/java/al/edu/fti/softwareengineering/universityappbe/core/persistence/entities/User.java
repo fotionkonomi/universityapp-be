@@ -30,7 +30,7 @@ public class User extends SoftDeletionEntity {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Column(name = "profile_picture_path", nullable = false)
+    @Column(name = "profile_picture_path", nullable = false, length = 65535)
     private String profilePicturePath;
 
     @ManyToMany(mappedBy = "studentsEnrolled")

@@ -6,27 +6,37 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.userInt
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.LikeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/like")
 public class LikeController extends CommonCrudRestController<LikeDTO, Long> {
 
-    @PostMapping("/comment/{idComment}")
-    public ResponseEntity<Void> toggleLikeAComment(@PathVariable("idComment") Long idComment) {
+    @PostMapping("/comment")
+    public ResponseEntity<Void> toggleLikeAComment(@RequestBody Long idComment) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         getLikeService().toggleLikeAComment(idComment, userDetails.getId());
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping("/content/{idContent}")
-    public ResponseEntity<Void> toggleLikeAContent(@PathVariable("idContent") Long idContent) {
+    @PostMapping("/content")
+    public ResponseEntity<Void> toggleLikeAContent(@RequestBody Long idContent) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         getLikeService().toggleLikeContent(idContent, userDetails.getId());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/comment/isLiked/{idComment}")
+    public ResponseEntity<Boolean> findIfACommentIsAlreadyLiked(@PathVariable("idComment") Long idComment) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(this.getLikeService().getLikeIfCommentIsAlreadyLiked(idComment, userDetails.getId()) != null ? true : false);
+    }
+
+    @GetMapping("/comment/{idComment}")
+    public ResponseEntity<List<LikeDTO>> findAllLikesOfAComment(@PathVariable("idComment") Long idComment) {
+        return ResponseEntity.ok(this.getLikeService().getLikesOfAComment(idComment));
     }
 
     public LikeService getLikeService() {

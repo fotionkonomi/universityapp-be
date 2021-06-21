@@ -14,7 +14,7 @@ import java.util.List;
 public interface CourseRepository extends ParentRepository<Course, Long> {
     List<Course> findAllByStudentsEnrolled_Id(Long id, Pageable pageable);
 
-    @Query("select c from Course c LEFT JOIN c.studentsEnrolled s where (s.id is null or s.id <> :id) and c.startDateTime > :startDateTime")
+    @Query("select c from Course c WHERE c not in (SELECT c FROM Course INNER JOIN c.studentsEnrolled s WHERE s.id = :id) and c.startDateTime > :startDateTime ")
     List<Course> findAllAvailableCourses(@Param("id") long id, @Param("startDateTime") Date startDateTime, Pageable pageable);
 
 }

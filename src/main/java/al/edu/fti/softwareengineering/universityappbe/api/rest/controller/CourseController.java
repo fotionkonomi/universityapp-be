@@ -26,8 +26,8 @@ public class CourseController extends CommonCrudRestController<CourseDTO, Long> 
         return ResponseEntity.ok(getCourseService().findAllByStudentEnrolled_id(userDetails.getId(), pageNumber));
     }
 
-    @PutMapping("/enroll/{idCourse}")
-    public ResponseEntity<Void> enrollInCourse(@PathVariable("idCourse") Long idCourse) {
+    @PutMapping("/enroll")
+    public ResponseEntity<Void> enrollInCourse(@RequestBody Long idCourse) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         getCourseService().saveUser(idCourse, userDetails.getId());
         return ResponseEntity.ok().build();
