@@ -20,8 +20,8 @@ public class NotificationController extends CommonCrudRestController<Notificatio
         return ResponseEntity.ok(getNotificationService().getAllUnseenNotificationsOfAUser(userDetails.getId()));
     }
 
-    @PutMapping("/see/{idNotification}")
-    public ResponseEntity<Void> seeNotification(@PathVariable("idNotification") Long idNotification) {
+    @PutMapping("/see")
+    public ResponseEntity<Void> seeNotification(@RequestBody Long idNotification) {
         getNotificationService().seeNotification(idNotification);
         return ResponseEntity.ok().build();
     }

@@ -15,15 +15,15 @@ import java.util.List;
 @RequestMapping("/friendship")
 public class FriendshipController extends CommonCrudRestController<FriendshipDTO, Long> {
 
-    @PostMapping("/friendRequest/{idRequestedTo}")
-    public ResponseEntity<Void> sendFriendRequest(@PathVariable("idRequestedTo") Long idRequestedTo) {
+    @PostMapping("/friendRequest")
+    public ResponseEntity<Void> sendFriendRequest(@RequestBody Long idRequestedTo) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         this.getFriendshipService().addFriendship(userDetails.getId(), idRequestedTo);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/acceptFriendRequest/{idRequestedBy}")
-    public ResponseEntity<Void> acceptFriendRequest(@PathVariable("idRequestedBy") Long idRequestedBy) {
+    @PutMapping("/acceptFriendRequest")
+    public ResponseEntity<Void> acceptFriendRequest(@RequestBody Long idRequestedBy) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         this.getFriendshipService().acceptFriendRequest(userDetails.getId(), idRequestedBy);
         return ResponseEntity.ok().build();
@@ -46,6 +46,12 @@ public class FriendshipController extends CommonCrudRestController<FriendshipDTO
     public ResponseEntity<List<FriendshipDTO>> getFriendshipsOfLoggedUser() {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return ResponseEntity.ok(this.getFriendshipService().getFriendshipsOfAUser(userDetails.getId()));
+    }
+
+    @GetMapping("/exists/{idPossibleFriend}")
+    public ResponseEntity<FriendshipDTO> doesFriendshipExist(@PathVariable("idPossibleFriend") Long idPossibleFriend) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(getFriendshipService().getFriendshipIfAlreadyExists(userDetails.getId(), idPossibleFriend));
     }
 
     private FriendshipService getFriendshipService() {

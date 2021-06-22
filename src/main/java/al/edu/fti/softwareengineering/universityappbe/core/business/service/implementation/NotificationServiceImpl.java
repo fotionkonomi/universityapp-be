@@ -25,7 +25,7 @@ public class NotificationServiceImpl extends AbstractJpaService<NotificationDTO,
 
     @Override
     public List<NotificationDTO> getAllUnseenNotificationsOfAUser(Long idUser) {
-        return this.mapEntityListToDTO(getNotificationRepository().findAllByToUser_IdAndSeenIsFalse(idUser));
+        return this.mapEntityListToDTO(getNotificationRepository().findAllByToUser_IdAndSeenIsFalseOrderByCreatedAtDesc(idUser));
     }
 
     @Override

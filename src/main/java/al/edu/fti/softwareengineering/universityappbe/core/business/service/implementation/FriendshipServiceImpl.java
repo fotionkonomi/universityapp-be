@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class FriendshipServiceImpl extends AbstractJpaService<FriendshipDTO, Friendship, Long> implements FriendshipService {
@@ -74,6 +75,12 @@ public class FriendshipServiceImpl extends AbstractJpaService<FriendshipDTO, Fri
     @Override
     public boolean checkIfFriendshipAlreadyExists(Long idLoggedUser, Long idPossibleFriend) {
         return this.getFriendshipRepository().findIfFriendshipExists(idLoggedUser, idPossibleFriend).isPresent();
+    }
+
+    @Override
+    public FriendshipDTO getFriendshipIfAlreadyExists(Long idLoggedUser, Long idPossibleFriend) {
+        Optional<Friendship> optionalFriendship = this.getFriendshipRepository().findIfFriendshipExists(idLoggedUser, idPossibleFriend);
+        return optionalFriendship.map(this::mapFromEntity).orElse(null);
     }
 
     @Override

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface NotificationRepository extends ParentRepository<Notification, Long> {
-    List<Notification> findAllByToUser_IdAndSeenIsFalse(Long idUser);
+    List<Notification> findAllByToUser_IdAndSeenIsFalseOrderByCreatedAtDesc(Long idUser);
 }

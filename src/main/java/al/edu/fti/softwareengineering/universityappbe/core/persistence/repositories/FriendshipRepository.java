@@ -22,4 +22,5 @@ public interface FriendshipRepository extends ParentRepository<Friendship, Long>
     Optional<Friendship> findIfFriendshipExistsAndAccepted(Long idUserLogged, Long idPossibleFriend);
 
     List<Friendship> findAllByRequestedBy_IdOrRequestedTo_IdAndActiveIsTrue(Long userId, Long userIdAgain);
+
 }
