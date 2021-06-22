@@ -5,6 +5,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.exceptions.E
 import al.edu.fti.softwareengineering.universityappbe.core.business.exceptions.FriendshipNotFoundException;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.CourseService;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.FriendshipService;
+import al.edu.fti.softwareengineering.universityappbe.core.business.service.PostService;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.base.AbstractJpaService;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.User;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.commentableAndLikeable.Course;
@@ -26,6 +27,9 @@ public class CourseServiceImpl extends AbstractJpaService<CourseDTO, Course, Lon
 
     @Autowired
     private FriendshipService friendshipService;
+
+    @Autowired
+    private PostService postService;
 
     public CourseServiceImpl() {
         super(Course.class, CourseDTO.class);
@@ -49,7 +53,9 @@ public class CourseServiceImpl extends AbstractJpaService<CourseDTO, Course, Lon
         User user = prepareUserForAddOrDrop(userId);
 
         course.addUser(user);
-        repo.save(course);
+        course = repo.save(course);
+
+        this.postService.addPostFromCourseEnrollment(userId, mapFromEntity(course));
     }
 
     @Override

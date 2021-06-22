@@ -1,10 +1,12 @@
 package al.edu.fti.softwareengineering.universityappbe.api.rest.controller;
 
 import al.edu.fti.softwareengineering.universityappbe.api.rest.controller.common.CommonCrudRestController;
+import al.edu.fti.softwareengineering.universityappbe.api.security.userDetails.MyUserDetails;
 import al.edu.fti.softwareengineering.universityappbe.core.business.dtos.UserDTO;
 import al.edu.fti.softwareengineering.universityappbe.core.business.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,7 +32,8 @@ public class UserController extends CommonCrudRestController<UserDTO, Long> {
 
     @GetMapping("/courseEnrolled/{idCourse}")
     public ResponseEntity<List<UserDTO>> getAllStudentsEnrolledInACourse(@PathVariable("idCourse") Long idCourse) {
-        return ResponseEntity.ok(((UserService) service).getUsersEnrolledInACourse(idCourse));
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(((UserService) service).getUsersEnrolledInACourse(idCourse, userDetails.getId()));
     }
 
 }

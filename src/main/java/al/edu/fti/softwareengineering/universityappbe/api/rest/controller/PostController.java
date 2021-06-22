@@ -22,6 +22,12 @@ public class PostController extends CommonCrudRestController<PostDTO, Long> {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/showLoggedUser/{pageNumber}")
+    public ResponseEntity<List<PostDTO>> postsToShowLoggedUser(@PathVariable("pageNumber") int pageNumber) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(getPostService().getPostsToShowToLoggedUser(userDetails.getId(), pageNumber));
+    }
+
     @GetMapping("/timeline/{pageNumber}")
     public ResponseEntity<List<PostDTO>> getPostsOfLoggedUser(@PathVariable("pageNumber") int pageNumber) {
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();

@@ -15,4 +15,6 @@ public interface LikeService extends BaseService<LikeDTO, Long> {
     LikeDTO getLikeIfContentIsAlreadyLiked(Long idCommentableAndLikeable, Long idUser);
 
     List<LikeDTO> getLikesOfAComment(Long idComment);
+
+    List<LikeDTO> getLikesOfAContent(Long idContent);
 }

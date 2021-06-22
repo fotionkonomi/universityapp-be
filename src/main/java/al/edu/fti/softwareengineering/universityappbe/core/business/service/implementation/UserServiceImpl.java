@@ -36,8 +36,8 @@ public class UserServiceImpl extends AbstractJpaService<UserDTO, User, Long> imp
     }
 
     @Override
-    public List<UserDTO> getUsersEnrolledInACourse(Long idCourse) {
-        return mapEntityListToDTO(getUserRepository().findAllByCoursesOfAUser_id(idCourse));
+    public List<UserDTO> getUsersEnrolledInACourse(Long idCourse, Long idLoggedUser) {
+        return mapEntityListToDTO(getUserRepository().findAllByCoursesOfAUser_idAndIdIsNot(idCourse, idLoggedUser));
     }
 
     @Override

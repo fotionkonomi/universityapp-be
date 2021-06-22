@@ -9,7 +9,7 @@ import java.util.List;
 public interface UserService extends BaseService<UserDTO, Long> {
     UserDTO findByEmail(final String email) throws UserNotFoundException;
 
-    List<UserDTO> getUsersEnrolledInACourse(Long idCourse);
+    List<UserDTO> getUsersEnrolledInACourse(Long idCourse, Long idLoggedUser);
 
     List<UserDTO> getFriendsOfAUser(Long idUser);
 }

@@ -80,6 +80,11 @@ public class LikeServiceImpl extends AbstractJpaService<LikeDTO, Like, Long> imp
         return mapEntityListToDTO(getLikeRepository().findAllByCommentLiked_Id(idComment));
     }
 
+    @Override
+    public List<LikeDTO> getLikesOfAContent(Long idContent) {
+        return mapEntityListToDTO(this.getLikeRepository().findAllByLikedContent_Id(idContent));
+    }
+
     private LikeRepository getLikeRepository() {
         return (LikeRepository) repo;
     }

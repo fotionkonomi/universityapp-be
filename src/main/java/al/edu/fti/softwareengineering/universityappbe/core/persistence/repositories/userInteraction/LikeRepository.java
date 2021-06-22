@@ -15,4 +15,6 @@ public interface LikeRepository extends ParentRepository<Like, Long> {
 
     List<Like> findAllByCommentLiked_Id(Long idCommentLiked);
 
+    List<Like> findAllByLikedContent_Id(Long idContentLiked);
+
 }

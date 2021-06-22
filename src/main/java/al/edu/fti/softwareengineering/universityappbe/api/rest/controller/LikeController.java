@@ -34,9 +34,20 @@ public class LikeController extends CommonCrudRestController<LikeDTO, Long> {
         return ResponseEntity.ok(this.getLikeService().getLikeIfCommentIsAlreadyLiked(idComment, userDetails.getId()) != null ? true : false);
     }
 
+    @GetMapping("/content/isLiked/{idContent}")
+    public ResponseEntity<Boolean> findIfAContentIsAlreadyLiked(@PathVariable("idContent") Long idContent) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(this.getLikeService().getLikeIfContentIsAlreadyLiked(idContent, userDetails.getId()) != null ? true : false);
+    }
+
     @GetMapping("/comment/{idComment}")
     public ResponseEntity<List<LikeDTO>> findAllLikesOfAComment(@PathVariable("idComment") Long idComment) {
         return ResponseEntity.ok(this.getLikeService().getLikesOfAComment(idComment));
+    }
+
+    @GetMapping("/content/{idContent}")
+    public ResponseEntity<List<LikeDTO>> findAllLikesOfAContent(@PathVariable("idContent") Long idContent) {
+        return ResponseEntity.ok(this.getLikeService().getLikesOfAContent(idContent));
     }
 
     public LikeService getLikeService() {
