@@ -8,6 +8,8 @@ import java.util.List;
 public interface CourseService extends BaseService<CourseDTO, Long> {
     List<CourseDTO> findAllByStudentEnrolled_id(Long id, int pageNumber);
 
+    List<CourseDTO> findAllByStudentEnrolled_id(Long id);
+
     List<CourseDTO> findAllCoursesAvailableForLoggedUser(long id, int pageNumber);
 
     void saveUser(Long courseId, Long userId);

@@ -42,6 +42,11 @@ public class CourseServiceImpl extends AbstractJpaService<CourseDTO, Course, Lon
     }
 
     @Override
+    public List<CourseDTO> findAllByStudentEnrolled_id(Long id) {
+        return mapEntityListToDTO(getCourseRepository().findAllByStudentsEnrolled_Id(id));
+    }
+
+    @Override
     public List<CourseDTO> findAllCoursesAvailableForLoggedUser(long id, int pageNumber) {
         pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
         return mapEntityListToDTO(getCourseRepository().findAllAvailableCourses(id, new Date(), PageRequest.of(pageNumber, 10)));

@@ -17,4 +17,5 @@ public class MessageConstants {
     public static final String MSG_NOTIFICATION_FRIENDSHIP_REQUEST_ACCEPT = "notification.friendship.request.accept";
     public static final String MSG_NOTIFICATION_FRIENDSHIP_REQUEST_DECLINED = "notification.friendship.request.declined";
     public static final String MSG_NOTIFICATION_POST = "notification.post";
+    public static final String MSG_NOTIFICATION_COURSE_START = "notification.course.start";
 }
