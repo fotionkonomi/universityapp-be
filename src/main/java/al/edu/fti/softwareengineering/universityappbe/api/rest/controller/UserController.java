@@ -36,4 +36,12 @@ public class UserController extends CommonCrudRestController<UserDTO, Long> {
         return ResponseEntity.ok(((UserService) service).getUsersEnrolledInACourse(idCourse, userDetails.getId()));
     }
 
+    @GetMapping("/friends/{pageNumber}")
+    public ResponseEntity<List<UserDTO>> getFriendsOfLoggedUser(@PathVariable("pageNumber") int pageNumber) {
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return ResponseEntity.ok(((UserService) service).getFriendsOfAUser(userDetails.getId(), pageNumber));
+    }
+
+
+
 }

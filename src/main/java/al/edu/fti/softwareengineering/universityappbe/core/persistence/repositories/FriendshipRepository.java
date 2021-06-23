@@ -1,8 +1,8 @@
 package al.edu.fti.softwareengineering.universityappbe.core.persistence.repositories;
 
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.Friendship;
-import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.User;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositories.common.ParentRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -23,4 +23,5 @@ public interface FriendshipRepository extends ParentRepository<Friendship, Long>
 
     List<Friendship> findAllByRequestedBy_IdOrRequestedTo_IdAndActiveIsTrue(Long userId, Long userIdAgain);
 
+    List<Friendship> findAllByRequestedBy_IdOrRequestedTo_IdAndActiveIsTrue(Long userId, Long userIdAgain, Pageable pageable);
 }

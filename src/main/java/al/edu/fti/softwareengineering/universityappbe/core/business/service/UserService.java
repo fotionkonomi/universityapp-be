@@ -12,4 +12,6 @@ public interface UserService extends BaseService<UserDTO, Long> {
     List<UserDTO> getUsersEnrolledInACourse(Long idCourse, Long idLoggedUser);
 
     List<UserDTO> getFriendsOfAUser(Long idUser);
+
+    List<UserDTO> getFriendsOfAUser(Long idUser, int pageNumber);
 }

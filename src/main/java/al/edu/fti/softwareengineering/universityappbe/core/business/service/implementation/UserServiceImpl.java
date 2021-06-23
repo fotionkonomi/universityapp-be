@@ -43,6 +43,16 @@ public class UserServiceImpl extends AbstractJpaService<UserDTO, User, Long> imp
     @Override
     public List<UserDTO> getFriendsOfAUser(Long idUser) {
         List<FriendshipDTO> friendshipDTOList = this.friendshipService.getFriendshipsOfAUser(idUser);
+        return getUserDTOS(idUser, friendshipDTOList);
+    }
+
+    @Override
+    public List<UserDTO> getFriendsOfAUser(Long idUser, int pageNumber) {
+        List<FriendshipDTO> friendshipDTOList = this.friendshipService.getFriendshipsOfAUser(idUser, pageNumber);
+        return getUserDTOS(idUser, friendshipDTOList);
+    }
+
+    private List<UserDTO> getUserDTOS(Long idUser, List<FriendshipDTO> friendshipDTOList) {
         List<UserDTO> friends = new ArrayList<>();
         friendshipDTOList.forEach((friendshipDTO -> {
             if(friendshipDTO.getRequestedBy().getId().equals(idUser)) {

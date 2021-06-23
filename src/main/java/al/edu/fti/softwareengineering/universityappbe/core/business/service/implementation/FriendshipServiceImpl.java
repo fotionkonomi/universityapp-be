@@ -12,6 +12,7 @@ import al.edu.fti.softwareengineering.universityappbe.core.business.service.base
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.entities.Friendship;
 import al.edu.fti.softwareengineering.universityappbe.core.persistence.repositories.FriendshipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -91,6 +92,13 @@ public class FriendshipServiceImpl extends AbstractJpaService<FriendshipDTO, Fri
     @Override
     public List<FriendshipDTO> getFriendshipsOfAUser(Long idUser) {
         return mapEntityListToDTO(this.getFriendshipRepository().findAllByRequestedBy_IdOrRequestedTo_IdAndActiveIsTrue(idUser, idUser));
+    }
+
+    @Override
+    public List<FriendshipDTO> getFriendshipsOfAUser(Long idUser, int pageNumber) {
+        pageNumber = pageNumber < 1 ? 0 : pageNumber - 1;
+        List<Friendship> friendships = this.getFriendshipRepository().findAllByRequestedBy_IdOrRequestedTo_IdAndActiveIsTrue(idUser, idUser, PageRequest.of(pageNumber, 10));
+        return mapEntityListToDTO(friendships);
     }
 
     private FriendshipDTO findFriendRequest(Long idRequestedTo, Long idRequestedBy) {
