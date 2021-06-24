@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Filter that will intercept all the calls to our web services to validate the jwt filter
+ */
 public class JwtRequestFilter extends OncePerRequestFilter {
 
     private UserDetailsService userDetailsService;

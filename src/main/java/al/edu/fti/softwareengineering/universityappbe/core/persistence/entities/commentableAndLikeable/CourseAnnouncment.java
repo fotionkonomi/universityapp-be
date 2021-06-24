@@ -9,6 +9,10 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
+/**
+ * Stores information regarding an announcement in a course
+ * Maps the announcment table in the database
+ */
 @Data
 @Entity
 @Table(name = "announcment")
@@ -17,10 +21,16 @@ import javax.persistence.*;
 @EqualsAndHashCode(exclude = {"likes", "commentedContent"})
 public class CourseAnnouncment extends CommentableAndLikeable {
 
+    /**
+     * Stores the course where the announcement will be posted
+     */
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "id_course", referencedColumnName = "id")
     private Course courseField;
 
+    /**
+     * Content of the announcement
+     */
     @Column(nullable = false)
     private String content;
 }

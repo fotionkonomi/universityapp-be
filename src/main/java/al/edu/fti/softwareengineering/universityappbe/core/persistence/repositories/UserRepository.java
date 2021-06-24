@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface UserRepository extends ParentRepository<User, Long> {
     Optional<User> findByEmail(final String email);
 
-    List<User> findAllByCoursesOfAUser_idAndIdIsNot(Long id, Long idLoggedUser);
+    List<User> findAllByCoursesOfAUser_idAndIdIsNot(Long idCourse, Long idLoggedUser);
 }

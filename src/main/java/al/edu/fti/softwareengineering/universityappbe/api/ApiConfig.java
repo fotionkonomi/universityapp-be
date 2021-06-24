@@ -9,11 +9,20 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class ApiConfig {
+
+    /**
+     * Creates a bean in the Spring IOC Container that is used for password encoding
+     * @return
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder(5);
     }
 
+    /**
+     * Creates a bean in the Spring IOC Container that reads from properties files
+     * @return
+     */
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource resource = new ResourceBundleMessageSource();
